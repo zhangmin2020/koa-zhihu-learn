@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon app/index.js",
     "start": "cross-env NODE_ENV=production node app/index.js",
+    "serve": "cross-env NODE_ENV=production pm2 start app --update-env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

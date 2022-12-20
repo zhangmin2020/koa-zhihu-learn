@@ -2,7 +2,7 @@
  * @Author: six one six
  * @Date: 2022-12-13 13:44:59
  * @LastEditors: six one six
- * @LastEditTime: 2022-12-16 11:08:39
+ * @LastEditTime: 2022-12-16 11:27:00
  * @Description: 
  */
 const path = require('path')
@@ -26,8 +26,8 @@ mongoose.connect(config.dbUrl, () => console.log('数据库链接成功'))
 mongoose.set('strictQuery', false)
 mongoose.connection.on('error', console.error)
 
-// 生成静态文件url地址
-app.use(koaStatic)
+// 静态文件服务器
+app.use(koaStatic(path.join(__dirname, 'public')))
 
 // 错误处理
 app.use(jsonError({
@@ -40,7 +40,7 @@ app.use(jsonError({
   }
 }))
 
-// 解析请求体 ctx.request.body 还能解析上传文件
+// 解析请求体 ctx.request.body 还能解析上传文件并上传到指定文件夹
 app.use(koaBody({
   multipart: true,
   formidable: {

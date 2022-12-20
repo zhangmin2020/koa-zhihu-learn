@@ -2,7 +2,7 @@
  * @Author: six one six
  * @Date: 2022-12-13 17:26:10
  * @LastEditors: six one six
- * @LastEditTime: 2022-12-18 17:04:15
+ * @LastEditTime: 2022-12-18 17:43:07
  * @Description: 
  */
 const Router = require('koa-router')
@@ -11,8 +11,8 @@ const koaJwt = require('koa-jwt')
 
 const config = require('../config')
 
-const router = new Router({prefix: '/users'})
-const userCtr = require('../contorllers/users')
+const router = new Router({prefix: '/topics'})
+const topicsCtr = require('../contorllers/topics')
 
 // 手写jwt签名
 // const jsonwebtoken = require('jsonwebtoken')
@@ -33,25 +33,12 @@ const userCtr = require('../contorllers/users')
 // jwt认证
 const auth = koaJwt({secret: config.signSecret})
 
-router.get('/', auth, userCtr.getUserList)
+router.get('/', topicsCtr.getTopicList)
 
-router.post('/', auth, userCtr.addOneUser)
+router.post('/', auth, topicsCtr.addOneTopic)
 
-router.get('/:id', auth, userCtr.findOneUser)
+router.get('/:id', auth, topicsCtr.findOneTopic)
+router.patch('/:id', auth, topicsCtr.updateOneTopic)
 
-router.patch('/:id', auth, userCtr.updateOneUser)
-router.delete('/:id', auth, userCtr.deleteOneUser)
-
-router.post('/login', userCtr.login)
-
-// 关注某人
-router.put('/following/:id', auth, userCtr.checkUserExist, userCtr.postFollowOneUser)
-router.delete('/unfollowing/:id', auth, userCtr.checkUserExist, userCtr.unFollowOneUser)
-
-// 获取关注列表
-router.get('/:id/following-list', auth, userCtr.getFollowIngList)
-
-// 获取关注列表
-router.get('/:id/fans-list', auth, userCtr.getFansList)
 
 module.exports = router
